@@ -13,7 +13,9 @@ def detect_p(tuple,trie,tuple_length,synonyms_hash,synonym_indices)
       indices = trie.contains(word)
     end
     if indices.length==0
-      return false
+      # if the word does not exist, return index of the tuple which was not found
+      # the index ranges from 0 to tuple_length-1
+      return x
     elsif indices.length>0
       occurences<<indices
     end
@@ -40,18 +42,19 @@ def is_consecutive(occurences)
     if occurences[1].include?(occurences[0][x]+1)
       for y in 0...occurences[1].length
         if occurences[2].include?(occurences[1][y]+1)
-          return true
+          # ideally I would like to return a boolean, but detect_p must return an integer
+          return 999
         end
       end
     end
   end
-  false
+  -1
 end
 
 # asks the user for the txt files
 # returns the name of the files as an array
 def get_user_input
-  puts "Enter the name of the txt file containing the synonyms_has"
+  puts "Enter the name of the txt file containing the synonyms"
   syns_txt = gets.chomp
   puts "Enter the name of inputfile1 (the txt file that you want to check for plagiarism)"
   txt_to_check = gets.chomp

@@ -40,12 +40,22 @@ syns_hash.values.each do |indices|
 end
 
 num_matches = 0
+start_index = 0
 # check all n-tuples of input1. N defaults to 3
-for x in 0...input1.length-2
-  tuple = [input1[x],input1[x+1],input1[x+2]]
-  if detect_p(tuple,string2_trie,3,syns_hash,synonym_indices)
-    puts "found a match for " + input1[x] + " " + input1[x+1] + " " + input1[x+2]
+while start_index < input1.length-2
+  tuple = [input1[start_index],input1[start_index+1],input1[start_index+2]]
+  response = detect_p(tuple,string2_trie,3,syns_hash,synonym_indices)
+    # puts "found a match for " + input1[start_index] + " " + input1[start_index+1] + " " + input1[start_index+2]
+  if response==-1
+    # all words in the tuple were found in File2, but not in consecutive order. No plagiarism detected
+    start_index+=1
+  elsif response==999
+    # plagiarism detected
     num_matches+=1
+    start_index+=1
+  elsif response>-1 && response<3
+    # at least one word in the tuple was not found in File2, so skip ahead to the next tuple
+    start_index+=response+1
   end
 end
 
