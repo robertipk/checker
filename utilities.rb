@@ -1,7 +1,11 @@
 require_relative 'trie'
 require_relative 'trie_node'
 
-# Returns true if tuple is found in trie
+# returns 999 if plagiarism was detected (all words of the tuple were found in trie in a consecutive sequence)
+# returns -1 if all words in the tuple were found in file2, but not in a conseutive sequence
+# otherwise, returns the index of the first integer in the tuple that was not found in file2 (the integer ranges from 0 to tuple length-1)
+# for example, in the case that tuple length is 20, if none of the 20 words were found in file2, there's no reason to search the trie for any
+# of these 20 words again. The main function will skip ahead to the first word in File1 that comes after these 20 words.
 def detect_p(tuple,trie,tuple_length,synonyms_hash,synonym_indices)
   occurences = Array.new
   for x in 0...tuple_length
@@ -51,8 +55,13 @@ def is_consecutive(occurences)
   -1
 end
 
-# asks the user for the txt files
-# returns the name of the files as an array
+# returns plagiarism percentage as a string
+def format_quotient(plagariasm_count,tuple_count)
+  (100*((plagariasm_count.to_f)/tuple_count)).to_i.to_s + "%"
+end
+
+# asks the user for the name of the three txt files
+# returns the name of the three files as an array
 def get_user_input
   puts "Enter the name of the txt file containing the synonyms"
   syns_txt = gets.chomp
