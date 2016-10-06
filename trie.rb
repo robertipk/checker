@@ -13,19 +13,22 @@ class Trie
   # if the word exists, returns all the occurences of the word in string2
   def contains(word)
     if word==nil || word==""
-      return false
+      return []
     else
       node = @root.children[word[0]]
+      if !node
+        return []
+      end
       for x in 1...word.length
         if node.children.has_key?(word[x])
           node = node.children[word[x]]
-        elsif !node.children.has_key?(word[x])
-          return false
+        else
+          return []
         end
       end
       if node.indices.length==0
         # reached last letter of the word, but the word does not exist
-        return -1
+        return []
       elsif node.indices.length>=0
         # return all positions of the word in string2
         return node.indices
