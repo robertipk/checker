@@ -47,3 +47,15 @@ def is_consecutive(occurences)
   end
   false
 end
+
+# asks the user for the txt files
+# returns the name of the files as an array
+def get_user_input
+  puts "Enter the name of the txt file containing the synonyms_has"
+  syns_txt = gets.chomp
+  puts "Enter the name of inputfile1 (the txt file that you want to check for plagiarism)"
+  txt_to_check = gets.chomp
+  puts "Enter the name of inputfile2 (the txt file that inputfile1 will be checked against)"
+  source_file = gets.chomp
+  [syns_txt,txt_to_check,source_file]
+end

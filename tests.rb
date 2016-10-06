@@ -2,6 +2,8 @@ require_relative 'main'
 require_relative 'trie'
 require 'pry'
 
+# I used tests.rb to check various methods
+# this file can be ignored
 occurences1 = [12,3,4],[2,5,6,7],[5,6,7] # yes plagiarism - 4 5 6
 occurences2 = [12,3,4],[2,5,6,7],[6,7] # yes plagiarism 4 5 6
 occurences3 = [12],[2,5,6,7],[14] # no plagiarism
