@@ -4,20 +4,20 @@ require 'pry'
 syns = File.read("syns.txt").split(" ")
 input1 = File.read("file1.txt").split(" ")
 input2 = File.read("file2.txt").split(" ")
-
-
-# this hash stores all occurences of each synonym in string2
+#
+#
+# # this hash stores all occurences of each synonym in string2
 syns_hash = Hash.new
 syns.each do |word|
   syns_hash[word] = Array.new
 end
-
+#
 string2_trie = Trie.new
-# store all words in file2 into the trie
+# # store all words in file2 into the trie
 for x in 0...input2.length
-  string2_trie.insert(input2[x])
+  string2_trie.insert(input2[x],x)
 end
-
+binding.pry
 # check all n-tuples of input1. N defaults to 3
 
 
@@ -27,10 +27,10 @@ def detect_p(tuple,trie,index,tuple_length,synonyms)
   for x in 0...tuple_length
     word = tuple[0]
     if is_synonym(word)
-
       if !trie.contains(word)
         return false
-
+      end
+    end
   end
   true
 end
@@ -51,9 +51,9 @@ end
 def is_consecutive(occurences)
   tuple_length = occurences.length
   for x in 0...occurences[0].length
-    if occurence[1].contains(occurence[0][x]+1)
+    if occurences[1].include?(occurences[0][x]+1)
       for y in 0...occurences[1].length
-        if occurence[2].contains(occurence[1][y]+1)
+        if occurences[2].include?(occurences[1][y]+1)
           return true
         end
       end

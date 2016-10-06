@@ -1,15 +1,9 @@
 # Robert Ip
 # assumption - all members of string2 consist solely of lowercase letters
-class Trie_Node
-  attr_accessor :letter,:indices,:children,
-  def initializer(letter=nil)
-   @letter = letter
-   @indices = Array.new
-   @children = Hash.new
-  end
-end
+require_relative 'trie_node'
 
 class Trie
+  attr_accessor :root
   def initialize()
    @root = Trie_Node.new
   end
@@ -29,19 +23,19 @@ class Trie
           return false
         end
       end
-      if node.positions.length==0
+      if node.indices.length==0
         # reached last letter of the word, but the word does not exist
         return -1
-      elsif node.positions.length>=0
+      elsif node.indices.length>=0
         # return all positions of the word in string2
-        return node.positions
+        return node.indices
       end
     end
   end
   # inserts word into the trie, along with its index in string2
   # returns nothing
   def insert(word,index)
-   node = @root.children[word[0]]
+   node = @root
    for x in 0...word.length
      if node.children.has_key?(word[x])
        node = node.children[word[x]]
@@ -51,6 +45,6 @@ class Trie
        node = new_node
      end
    end
-   node.positions<<index
+   node.indices<<index
   end
 end
