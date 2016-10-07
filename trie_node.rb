@@ -1,5 +1,3 @@
-require 'pry'
-
 class Trie_Node
   attr_accessor :letter,:indices,:children
   def initialize(letter=nil)

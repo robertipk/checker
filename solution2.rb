@@ -1,23 +1,16 @@
+# Robert Ip
 require_relative 'trie'
 require_relative 'utilities'
 
-require 'pry'
-# I tested my program using syns.txt, file1.txt, and file2.txt
-# but the program also accepts command line arguments, as specified in the assignment guidelines
-# syns = File.read("syns.txt").split(" ")
-# input1 = File.read("file1.txt").split(" ")
-# input2 = File.read("file2.txt").split(" ")
+# solution 2 - using a trie
 
 user_responses = get_user_input
 syns = File.read(user_responses[0]).split(" ")
 input1 = File.read(user_responses[1]).split(" ")
 input2 = File.read(user_responses[2]).split(" ")
 
-
-if input1.length < 3
-  puts "0% - plagiarism impossible if length of input is less than tuple length"
-  exit
-end
+# assume tuple length is 3
+validate_tuple_length(input1.length, 3)
 
 # this hash will stores all occurences of each synonym in file2, if the synonym is present
 # key: the synonym
@@ -27,23 +20,17 @@ syns.each do |word|
   syns_hash[word] = Array.new
 end
 
-# store all words in file2 into the trie
-# if the word is in the list of synonyms, add its index to the syns_hash
 string2_trie = Trie.new
+# an array containing all the indices in file2 at which any synonym was found
+synonym_indices = Array.new
 
+# store all words in file2 into the trie
+# if the word is a synonym, add its index to synonym_indices
 for x in 0...input2.length
   if syns_hash.has_key?(input2[x])
-    syns_hash[input2[x]] << x
+    synonym_indices << x
   end
   string2_trie.insert(input2[x],x)
-end
-
-# an array containing all the indices in file2 at which a synonym was found
-synonym_indices = Array.new
-syns_hash.values.each do |indices|
-  if indices.length>0
-    synonym_indices += indices
-  end
 end
 
 plagariasm_count = 0
@@ -67,4 +54,3 @@ while start_index < input1.length-2
 end
 num_tuples = input1.length-2
 puts format_quotient(plagariasm_count,num_tuples)
-# puts ((num_matches.to_f/num_tuples)).round(2).to_s + "%"

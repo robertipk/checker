@@ -38,8 +38,9 @@ end
 
 # given the occurenes of each of the words of each word of the tuple in string2
 # check if a consecutive chains exists
-# assumes tuple is of length 3
+# assumes tuple length of 3
 # for example [0,2,3,4,5],[6,8,11],[7,10,13] will return true because the consecutive sequence 5-6-7 is present
+# exponential runtime - probably bottlebeck. Could be optimized if I sorted the arrays first
 def is_consecutive(occurences)
   tuple_length = occurences.length
   for x in 0...occurences[0].length
@@ -61,7 +62,7 @@ def format_quotient(plagariasm_count,tuple_count)
 end
 
 # asks the user for the name of the three txt files
-# returns the name of the three files as an array
+# returns user responses as an array
 def get_user_input
   puts "Enter the name of the txt file containing the synonyms"
   syns_txt = gets.chomp
@@ -70,4 +71,11 @@ def get_user_input
   puts "Enter the name of inputfile2 (the txt file that inputfile1 will be checked against)"
   source_file = gets.chomp
   [syns_txt,txt_to_check,source_file]
+end
+
+def validate_tuple_length(word_count,tuple_length)
+  if word_count < tuple_length
+    puts "Cannot calculate plagiarism impossible if length of input is less than tuple length"
+    exit
+  end
 end
